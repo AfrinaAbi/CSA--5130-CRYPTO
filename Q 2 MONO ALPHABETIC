@@ -1,0 +1,40 @@
+def monoalphabetic_cipher(message, key):
+    alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    encrypted_message = ''
+
+    for char in message:
+        if char.isalpha():
+      
+      # Get the index of the character in the alphabet
+            idx = alphabet.index(char.lower())
+            
+            # Apply the key to get the new index
+            new_idx = (idx + key) % 26
+            
+            # Get the new character from the alphabet
+            if char.islower():
+                new_char = alphabet[new_idx]
+            else:
+                new_char = alphabet[new_idx].upper()
+            
+            encrypted_message += new_char
+        else:
+            encrypted_message += char
+    
+    return encrypted_message
+
+def main():
+    message = input("Enter a message to encrypt: ")
+    key = int(input("Enter the key (1-25): "))
+    
+    encrypted_message = monoalphabetic_cipher(message, key)
+    print("Encrypted message:", encrypted_message)
+
+if __name__ == "__main__":
+    main()
+OUTPUT:
+Enter a message to encrypt: Hello, World!
+Enter a message to encrypt: Hello, World!
+Enter the key (1-25): 3
+
+
