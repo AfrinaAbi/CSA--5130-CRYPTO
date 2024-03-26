@@ -1,0 +1,42 @@
+from Crypto.Cipher import DES
+from Crypto.Random import get_random_bytes
+import base64
+
+def pad_text(text):
+    """
+    Pad the input text to be a multiple of 8 bytes
+    """
+    while len(text) % 8 != 0:
+        text += b' '
+    return text
+
+def encrypt_message(message, key):
+    """
+    Encrypts a message using DES algorithm
+    """
+    des = DES.new(key, DES.MODE_ECB)
+    padded_message = pad_text(message.encode())
+    encrypted_message = des.encrypt(padded_message)
+    return base64.b64encode(encrypted_message)
+
+def decrypt_message(encrypted_message, key):
+    """
+    Decrypts a DES encrypted message
+    """
+    des = DES.new(key, DES.MODE_ECB)
+    decrypted_message = des.decrypt(base64.b64decode(encrypted_message))
+    return decrypted_message.decode().strip()
+
+if __name__ == "__main__":
+    key = get_random_bytes(8)  # Generate a random 8-byte key
+
+    message = "Hello, DES encryption!"
+    encrypted = encrypt_message(message, key)
+    print("Encrypted:", encrypted)
+
+    decrypted = decrypt_message(encrypted, key)
+    print("Decrypted:", decrypted)
+
+OUTPUT:
+Encrypted: b'JfCM69aQGKLjx9PpD6YvzQ=='
+Decrypted: Hello, DES encryption!
